@@ -25,4 +25,7 @@ class Book < ApplicationRecord
     end
   end
   
+  scope :latest, -> {order(created_at: :desc)}
+  scope :rate_count, -> {order(rate: :desc)}
+  
 end

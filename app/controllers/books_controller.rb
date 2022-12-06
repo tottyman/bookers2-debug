@@ -10,7 +10,14 @@ class BooksController < ApplicationController
   end
 
   def index
-    @books = Book.all
+    if params[:latest]
+      @books = Book.latest
+    elsif params[:rate_count]
+      @books = Book.rate_count
+    else
+      @books = Book.all
+    end
+    
     @book = Book.new
   end
 
@@ -47,7 +54,7 @@ class BooksController < ApplicationController
   private
 
   def book_params
-    params.require(:book).permit(:title, :body, :star)
+    params.require(:book).permit(:title, :body, :rate)
   end
   
   def is_matching_login_user
