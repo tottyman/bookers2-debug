@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_05_091638) do
+ActiveRecord::Schema.define(version: 2022_12_07_013004) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -48,6 +48,15 @@ ActiveRecord::Schema.define(version: 2022_12_05_091638) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "book_tag_relations", force: :cascade do |t|
+    t.integer "book_id", null: false
+    t.integer "tag_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["book_id"], name: "index_book_tag_relations_on_book_id"
+    t.index ["tag_id"], name: "index_book_tag_relations_on_tag_id"
+  end
+
   create_table "books", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -55,6 +64,9 @@ ActiveRecord::Schema.define(version: 2022_12_05_091638) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.float "rate"
+    t.integer "category_id"
+    t.integer "TagId"
+    t.string "category"
   end
 
   create_table "favorites", force: :cascade do |t|
@@ -67,6 +79,12 @@ ActiveRecord::Schema.define(version: 2022_12_05_091638) do
   create_table "relationships", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -87,4 +105,6 @@ ActiveRecord::Schema.define(version: 2022_12_05_091638) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "book_tag_relations", "books"
+  add_foreign_key "book_tag_relations", "tags"
 end
